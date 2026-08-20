@@ -36,4 +36,18 @@ export class TaskService {
       HttpStatus.BAD_REQUEST,
     );
   }
+
+  remove(id: string) {
+    const taskIndex = this.tasks.findIndex((t) => t.id === id);
+
+    if (taskIndex >= 0) {
+      this.tasks.splice(taskIndex, 1);
+      return;
+    }
+
+    throw new HttpException(
+      `Task with id ${id} not found`,
+      HttpStatus.BAD_REQUEST,
+    );
+  }
 }
