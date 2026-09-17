@@ -12,7 +12,7 @@ import {
 import { TaskDto } from './task.dto';
 import { TaskService } from './task.service';
 
-import type { FindALLParameters } from './task.dto';
+import type { FindALLParameters, TaskRouteParameters } from './task.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @UseGuards(AuthGuard)
@@ -21,23 +21,23 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Post()
-  create(@Body() task: TaskDto) {
-    this.taskService.create(task);
+  async create(@Body() task: TaskDto): Promise<TaskDto> {
+    return await this.taskService.create(task);
   }
 
   @Get('/:id')
-  findById(@Param('id') id: string): TaskDto {
-    return this.taskService.findById(id);
+  async findById(@Param('id') id: string): Promise<TaskDto> {
+    return await this.taskService.findById(id);
   }
 
   @Get()
-  findAll(@Query() params: FindALLParameters): TaskDto[] {
-    return this.taskService.findAll(params);
+  async findAll(@Query() params: FindALLParameters): Promise<TaskDto[]> {
+    return await this.taskService.findAll(params);
   }
 
-  @Put()
-  update(@Body() task: TaskDto) {
-    this.taskService.update(task);
+  @Put('/:id')
+  async update(@Param() params: TaskRouteParameters, @Body() task: TaskDto) {
+    await this.taskService.update(params.id, task);
   }
 
   @Delete('/:id')

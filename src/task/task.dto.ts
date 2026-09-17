@@ -36,6 +36,11 @@ export class TaskDto {
   expirationDate: Date;
 }
 
+export class TaskRouteParameters {
+  @IsUUID()
+  id: string;
+}
+
 export interface FindALLParameters {
   title: string;
   status: string;
